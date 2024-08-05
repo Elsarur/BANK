@@ -27,9 +27,9 @@ class ManagerUser{
         this.lastName = lastName,
         this.isInSession = isInSession,
         this.isAdmin = isAdmin,
-        this.password = password,
+        this.password = password
     }
-    register(){
+    async register(){
         const user = await UserModel.create({
             
             email: this.email,
@@ -37,13 +37,13 @@ class ManagerUser{
             name: this.name,
             lastName: this.lastName,
             isInSession: this.isInSession,
-            isAdmin = this.isAdmin,
-            password = this.password,
+            isAdmin : this.isAdmin,
+            password : this.password
         });
         const MA = new ManagerAccount(user._id,12345,"Ahorro",10000);
         const currentAccount = await MA.createAccount();
-        const MC = new ManagerCard(user._id, currentAccount_.id,"16digitos ala azar","debido",
-        "de la fecha actual sumer 3 años", "Generar codigo de 3 cifras","active");
+        const MC = new ManagerCard(user._id, currentAccount_.id,"16digitos al azar","debido",
+        "de la fecha actual sumar 3 años", "Generar codigo de 3 cifras","active");
         await MC.createCard();
         return user;
 
@@ -53,17 +53,19 @@ class ManagerUser{
     async Login(email, password){
         try {
             const user = await UserModel.findOne({emai: email})
-            }
+            
             if(!user) {
                 throw new Error ("Usuario no registrado!")
             }
             if(user.password !== password){
                 throw new Error("contraseña incorrecta!")
             }
-            return "Succeeded"
+            return "Succeded" 
+
         } catch (error) {
             throw new Error(`Error al iniciar secion: ${error}`);
         }
+    }
         async getUserInfo(){
             try{
                 const user = await UserModel.findById(id);
